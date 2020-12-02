@@ -19,17 +19,13 @@ function part1() {
 }
 
 function part2() {
-  let totalProduct = '';
-
-  input.forEach((value) => {
+  for (value of input) {
     const product = getComplementProduct(2020 - value);
 
     if (!isNaN(product)) {
-      totalProduct = product * parseInt(value);
+      return product * parseInt(value);
     }
-  });
-
-  return totalProduct;
+  }
 }
 
 console.log('Part 1: ', part1(), 'Part 2: ', part2());
