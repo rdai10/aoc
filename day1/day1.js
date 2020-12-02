@@ -2,16 +2,34 @@ const readFile = require('../helper.js');
 
 const input = readFile().split('\n');
 
-function part1() {
-  const entryPlaceholder = new Map();
+function getComplementProduct(sum) {
+  const dataMapping = new Map();
 
   input.forEach((value) => {
-    entryPlaceholder.set((2020 - value).toString(), value);
+    dataMapping.set((sum - value).toString(), value);
   });
 
-  const entry1 = input.find((key) => entryPlaceholder.has(key));
+  const complement = input.find((key) => dataMapping.has(key));
 
-  return entry1 * entryPlaceholder.get(entry1);
+  return complement * dataMapping.get(complement);
 }
 
-console.log('Part 1: ', part1());
+function part1() {
+  return getComplementProduct(2020);
+}
+
+function part2() {
+  let totalProduct = '';
+
+  input.forEach((value) => {
+    const product = getComplementProduct(2020 - value);
+
+    if (!isNaN(product)) {
+      totalProduct = product * parseInt(value);
+    }
+  });
+
+  return totalProduct;
+}
+
+console.log('Part 1: ', part1(), 'Part 2: ', part2());
