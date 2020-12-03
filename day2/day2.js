@@ -3,7 +3,7 @@ const readFile = require('../helper.js');
 const input = readFile().split('\n');
 
 function generateCaptureGroups(password) {
-  const regex = /(?<lowerBound>\d+)-(?<upperBound>\d+)\s+(?<policyLetter>[a-z]):\s+(?<password>.*\w)/;
+  const regex = /(?<lowerBound>\d+)-(?<upperBound>\d+)\s+(?<policyLetter>[a-z]):\s+(?<password>\w*)/;
 
   return password.match(regex).groups;
 }
