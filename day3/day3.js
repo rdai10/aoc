@@ -6,21 +6,35 @@ const inputMatrix = readFile()
 
 const rowLength = inputMatrix[0].length;
 
-function part1() {
+function findStops(deltaX, deltaY) {
   let counter = 0;
   let x = 0;
   let y = 0;
 
-  for (let row = 0; row < inputMatrix.length - 1; row++) {
-    x += 3;
-    y += 1;
-
+  while (inputMatrix[y]) {
     if (inputMatrix[y][x % rowLength] === '#') {
       counter++;
     }
+
+    x += deltaX;
+    y += deltaY;
   }
 
   return counter;
 }
 
-console.log('Part 1: ', part1());
+function part1() {
+  return findStops(3, 1);
+}
+
+function part2() {
+  return (
+    findStops(1, 1) *
+    findStops(3, 1) *
+    findStops(5, 1) *
+    findStops(7, 1) *
+    findStops(1, 2)
+  );
+}
+
+console.log('Part 1: ', part1(), 'Part 2: ', part2());
