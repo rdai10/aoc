@@ -48,8 +48,8 @@ function findSeatId(row, col) {
   return row * 8 + col;
 }
 
-function part1() {
-  const ascendingSeatID = input
+function sortSeatIdsInDecendingOrder() {
+  return input
     .map((boardingPass) => {
       const row = findPos(boardingPass.row, ROW);
       const col = findPos(boardingPass.col, COL);
@@ -57,8 +57,24 @@ function part1() {
       return findSeatId(row, col);
     })
     .sort((a, b) => b - a);
-
-  return ascendingSeatID[0];
 }
 
-console.log('Part 1: ', part1());
+function part1() {
+  return sortSeatIdsInDecendingOrder()[0];
+}
+
+function part2() {
+  const sortedSeatIds = sortSeatIdsInDecendingOrder();
+
+  return (
+    sortedSeatIds.find((id, index) => {
+      if (index !== 0 && index !== sortedSeatIds.length) {
+        return sortedSeatIds[index - 1] - 1 !== id;
+      } else {
+        return false;
+      }
+    }) + 1
+  );
+}
+
+console.log('Part 1: ', part1(), 'Part 2:', part2());
