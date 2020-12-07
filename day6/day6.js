@@ -3,21 +3,62 @@ const readFile = require('../helper.js');
 const input = readFile()
   .replace(/\n{1}/g, ' ')
   .split(/\s{2,}/)
-  .map((group) => {
-    const answerSet = new Set();
+  .map((group) =>
+    group.split(' ').map((memberAnswer) => {
+      const answerSet = new Set();
 
-    group
-      .replace(/\s/g, '')
-      .split('')
-      .forEach((answer) => answerSet.add(answer));
+      memberAnswer.split('').forEach((answer) => answerSet.add(answer));
 
-    return answerSet;
-  });
+      return answerSet;
+    })
+  );
 
-function part1() {
-  return input.reduce((acc, answerSet) => {
-    return acc + answerSet.size;
-  }, 0);
+function performUnionOperation(a, b) {
+  const union = new Set();
+
+  for (const entry of a) {
+    union.add(entry);
+  }
+
+  for (const entry of b) {
+    union.add(entry);
+  }
+
+  return union;
 }
 
-console.log('Part 1: ', part1());
+function performIntersectionOperation(a, b) {
+  const intersection = new Set();
+
+  for (const entry of a) {
+    if (b.has(entry)) {
+      intersection.add(entry);
+    }
+  }
+
+  return intersection;
+}
+
+function findTotalAnswers(answers) {
+  return answers.reduce((acc, answerSet) => acc + answerSet.size, 0);
+}
+
+function part1() {
+  const allCustomsFormAnswers = input.map((group) =>
+    group.reduce((acc, answerSet) => performUnionOperation(acc, answerSet))
+  );
+
+  return findTotalAnswers(allCustomsFormAnswers);
+}
+
+function part2() {
+  const sharedCustomsFormAnswers = input.map((group) =>
+    group.reduce((acc, answerSet) =>
+      performIntersectionOperation(acc, answerSet)
+    )
+  );
+
+  return findTotalAnswers(sharedCustomsFormAnswers);
+}
+
+console.log('Part 1: ', part1(), 'Part 2: ', part2());
