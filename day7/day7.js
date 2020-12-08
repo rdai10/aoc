@@ -1,4 +1,3 @@
-const { group } = require('console');
 const readFile = require('../helper.js');
 
 const input = {};
