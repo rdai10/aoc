@@ -1,4 +1,3 @@
-const { start } = require('repl');
 const readFile = require('../helper.js');
 
 const input = readFile().split('\n');
@@ -78,7 +77,7 @@ function part1() {
 }
 
 function part2() {
-  const contiguousNumbers = findContiguousNumbers().sort();
+  const contiguousNumbers = findContiguousNumbers().sort((a, b) => a - b);
 
   const smallest = contiguousNumbers[0];
   const largest = contiguousNumbers[contiguousNumbers.length - 1];
