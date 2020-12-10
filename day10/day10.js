@@ -1,12 +1,9 @@
-const { get } = require('http');
 const readFile = require('../helper.js');
 
 const input = readFile()
   .split('\n')
   .map((rating) => parseInt(rating))
   .sort((a, b) => a - b);
-
-const SEAT_OUTLET_JOLTAGE = 0;
 
 function getJoltageDistribution() {
   const joltageDistribution = new Map();
