@@ -1,4 +1,4 @@
-const readFile = require('../helper.js');
+const readFile = require('../../helper.js');
 
 const BIRTH_YEAR_FIELD = 'byr';
 const COUNTRY_ID_FIELD = 'cid';

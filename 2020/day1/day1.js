@@ -1,4 +1,4 @@
-const readFile = require('../helper.js');
+const readFile = require('../../helper');
 
 const input = readFile().split('\n');
 
