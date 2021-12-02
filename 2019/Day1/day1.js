@@ -1,6 +1,6 @@
-const fs = require('fs');
+const readFile = require('../../helper');
 
-const input = fs.readFileSync('input.txt', 'utf8').split('\n');
+const input = readFile().split('\n');
 
 const calculateFuel = mass => Math.floor(mass / 3) - 2;
 
