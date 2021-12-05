@@ -6,24 +6,38 @@ const report = readFile()
 	.split('\n')
 	.map((row) => Array.from(row));
 
-function convertTODecimal(binary) {
-	return parseInt(binary, 2);
+function convertToDecimal(binary) {
+	const decimal = parseInt(binary, 2);
+
+	if (isNaN(decimal)) {
+		throw new Error('Cannot convert to decimal');
+	}
+
+	return decimal;
 }
 
-function findMostAndLeastBits(matrix) {
+function findMostAndLeastBits(matrix, filterForMost = true) {
 	const most = [];
 	const least = [];
 
-	_.unzip(matrix).forEach((row) => {
+	_.unzip(matrix).forEach((row, filterForMost = true) => {
 		const ones = row.filter((val) => val === '1').length;
 		const zeroes = row.length - ones;
 
 		if (ones > zeroes) {
-			most.push(1);
-			least.push(0);
+			most.push('1');
+			least.push('0');
+		} else if (ones === zeroes) {
+			if (filterForMost) {
+				most.push('1');
+				least.push('0');
+			} else {
+				most.push('0');
+				least.push('1');
+			}
 		} else {
-			most.push(0);
-			least.push(1);
+			most.push('0');
+			least.push('1');
 		}
 	});
 
@@ -31,30 +45,19 @@ function findMostAndLeastBits(matrix) {
 }
 
 function filterOutBitValues(bitValue, matrix, filterForMost = true, index = 0) {
-	const reportSubset = matrix.filter(
-		(row) => Number(row[index]) === bitValue
-	);
+	const reportSubset = matrix.filter((row) => row[index] === bitValue);
 
 	if (reportSubset.length > 1) {
 		const newIndex = index + 1;
 
-		if (reportSubset.length === 2) {
-			return filterOutBitValues(
-				filterForMost ? 1 : 0,
-				reportSubset,
-				filterForMost,
-				newIndex
-			);
-		} else {
-			const [most, least] = findMostAndLeastBits(reportSubset);
+		const [most, least] = findMostAndLeastBits(reportSubset, filterForMost);
 
-			return filterOutBitValues(
-				filterForMost ? most[newIndex] : least[newIndex],
-				reportSubset,
-				filterForMost,
-				newIndex
-			);
-		}
+		return filterOutBitValues(
+			filterForMost ? most[newIndex] : least[newIndex],
+			reportSubset,
+			filterForMost,
+			newIndex
+		);
 	} else {
 		return _.flatten(reportSubset);
 	}
@@ -64,19 +67,19 @@ function part1() {
 	const [gamma, epsilon] = findMostAndLeastBits(report);
 
 	return (
-		convertTODecimal(gamma.join('')) * convertTODecimal(epsilon.join(''))
+		convertToDecimal(gamma.join('')) * convertToDecimal(epsilon.join(''))
 	);
 }
 
 function part2() {
 	const [most, least] = findMostAndLeastBits(report);
 
-	const oxygenGeneratorRating = filterOutBitValues(most[0], report, true);
+	const oGeneratorRating = filterOutBitValues(most[0], report, true);
 	const co2ScrubberRating = filterOutBitValues(least[0], report, false);
 
 	return (
-		convertTODecimal(oxygenGeneratorRating.join('')) *
-		convertTODecimal(co2ScrubberRating.join(''))
+		convertToDecimal(oGeneratorRating.join('')) *
+		convertToDecimal(co2ScrubberRating.join(''))
 	);
 }
 
