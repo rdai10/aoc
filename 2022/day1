@@ -1,5 +1,16 @@
 #!/usr/bin/env ruby
 
+def total_calories
+    DATA.read.split("\n\n").map { |elf| elf.split("\n") }.map { |elf| elf.sum { |food| food.to_i } }
+end
+
+def part1
+    pp total_calories.max
+end
+
+def part2
+    pp total_calories.max(3).sum
+end
 
 __END__
 5916
