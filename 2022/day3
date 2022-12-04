@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-module Strategy 
+module Reorganization 
   INPUT = DATA.read.split("\n")
 
   def self.repeated_item(rucksack)
@@ -42,8 +42,8 @@ module Strategy
   end
 end
 
-Strategy.part1
-Strategy.part2
+Reorganization.part1
+Reorganization.part2
 
 __END__
 PPZTzDhJPLqPhqDTqrwQZZWbmCBMJMcsNmCBFWmMcsNb

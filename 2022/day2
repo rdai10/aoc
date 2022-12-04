@@ -20,7 +20,7 @@ module Strategy
   }
 
   def self.part1 
-    pp INPUT.sum { |guide| PLAY_LOOK_UP[guide] }
+    puts INPUT.sum { |guide| PLAY_LOOK_UP[guide] }
   end
 
     # A for Rock, B for Paper, and C for Scissors
