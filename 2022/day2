@@ -40,7 +40,7 @@ module Strategy
     }
 
     def self.part2
-        pp INPUT.sum { |guide| LOOK_UP_2[guide] }
+        puts INPUT.sum { |guide| LOOK_UP_2[guide] }
     end
 end
 

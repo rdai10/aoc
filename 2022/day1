@@ -5,11 +5,11 @@ def total_calories
 end
 
 def part1
-    pp total_calories.max
+    puts total_calories.max
 end
 
 def part2
-    pp total_calories.max(3).sum
+    puts total_calories.max(3).sum
 end
 
 __END__
