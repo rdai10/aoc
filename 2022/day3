@@ -3,8 +3,15 @@
 module Strategy 
     INPUT = DATA.read.split("\n")
 
-    def self.intersection(rucksack)
-        rucksack[0...rucksack.size/2].chars.intersection(rucksack[rucksack.size/2..rucksack.size].chars)
+    def self.repeated_item(rucksack)
+        first_compartment = rucksack[0...rucksack.size/2].chars
+        second_compartment = rucksack[rucksack.size/2..rucksack.size].chars
+
+        first_compartment.intersection(second_compartment)
+    end
+
+    def self.badges(group)
+        group.first.intersection(group.last(2).first, group.last)
     end
 
     # Lowercase item types a - z have priorities 1 - 26.
@@ -15,9 +22,28 @@ module Strategy
     end
 
     def self.part1
-        puts INPUT.sum {|rucksack| intersection(rucksack).sum { |repeated_item| priority(repeated_item.ord)} }
+        answer = INPUT.sum do |rucksack| 
+            repeated_item(rucksack).sum { |item| priority(item.ord)}
+        end
+
+        puts answer
+    end
+
+    def self.part2
+        elf_groups = INPUT.each_slice(3)
+
+        all_badges = elf_groups.map do |group|
+            badges(group.map {|rucksack| rucksack.chars} )
+        end
+
+        answer = all_badges.sum { |badge| priority(badge.first.ord)}
+
+        puts answer
     end
 end
+
+Strategy.part1
+Strategy.part2
 
 __END__
 PPZTzDhJPLqPhqDTqrwQZZWbmCBMJMcsNmCBFWmMcsNb
