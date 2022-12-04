@@ -3,28 +3,50 @@
 module Cleanup
   ASSIGNMENT_RANGES = DATA.read.split("\n").map {|line| line.split(",")}
 
-  def self.range_values(string)
+  module_function
+
+  def range_values(string)
     values = string.split("-")
 
     {:start => values.first.to_i, :end => values.last.to_i}
   end
 
-  def self.part1
-    assignment_contained_count = ASSIGNMENT_RANGES.count do |ranges|
-      first_assignment = range_values(ranges.first)
-      second_assignment = range_values(ranges.last)
+  def cleaning_ranges(assignment1, assignment2)
+    range1 = Range.new(assignment1[:start], assignment1[:end])
+    range2 = Range.new(assignment2[:start], assignment2[:end])
 
-      first_range = Range.new(first_assignment[:start], first_assignment[:end])
-      second_range = Range.new(second_assignment[:start], second_assignment[:end])
+    {:first => range1, :second => range2}
+  end
 
-      first_range.cover?(second_range) || second_range.cover?(first_range)
+  def part1
+    contained_count = ASSIGNMENT_RANGES.count do |assigned_ranges|
+      first_assignment = range_values(assigned_ranges.first)
+      second_assignment = range_values(assigned_ranges.last)
+
+      ranges = cleaning_ranges(first_assignment, second_assignment)
+
+      ranges[:first].cover?(ranges[:second]) || ranges[:second].cover?(ranges[:first])
     end
 
-    puts assignment_contained_count
+    puts contained_count
+  end
+
+  def part2
+    overlap_count = ASSIGNMENT_RANGES.count do |assigned_ranges|
+      first_assignment = range_values(assigned_ranges.first)
+      second_assignment = range_values(assigned_ranges.last)
+
+      ranges = cleaning_ranges(first_assignment, second_assignment)
+
+      ranges[:first].include?(second_assignment[:start]) || ranges[:first].include?(second_assignment[:end]) || ranges[:second].include?(first_assignment[:start]) || ranges[:second].include?(first_assignment[:end])
+    end
+
+    puts overlap_count
   end
 end
 
 Cleanup.part1
+Cleanup.part2
 
 __END__
 7-24,8-8
