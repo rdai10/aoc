@@ -11,7 +11,10 @@ module Cleanup
     {:start => values.first.to_i, :end => values.last.to_i}
   end
 
-  def cleaning_ranges(assignment1, assignment2)
+  def cleaning_ranges(ranges)
+    assignment1 = range_values(ranges.first)
+    assignment2 = range_values(ranges.last)
+
     range1 = Range.new(assignment1[:start], assignment1[:end])
     range2 = Range.new(assignment2[:start], assignment2[:end])
 
@@ -20,10 +23,7 @@ module Cleanup
 
   def part1
     contained_count = ASSIGNMENT_RANGES.count do |assigned_ranges|
-      first_assignment = range_values(assigned_ranges.first)
-      second_assignment = range_values(assigned_ranges.last)
-
-      ranges = cleaning_ranges(first_assignment, second_assignment)
+      ranges = cleaning_ranges(assigned_ranges)
 
       ranges[:first].cover?(ranges[:second]) || ranges[:second].cover?(ranges[:first])
     end
@@ -33,12 +33,9 @@ module Cleanup
 
   def part2
     overlap_count = ASSIGNMENT_RANGES.count do |assigned_ranges|
-      first_assignment = range_values(assigned_ranges.first)
-      second_assignment = range_values(assigned_ranges.last)
+      ranges = cleaning_ranges(assigned_ranges)
 
-      ranges = cleaning_ranges(first_assignment, second_assignment)
-
-      ranges[:first].include?(second_assignment[:start]) || ranges[:first].include?(second_assignment[:end]) || ranges[:second].include?(first_assignment[:start]) || ranges[:second].include?(first_assignment[:end])
+      ranges[:first].cover?(ranges[:second].begin) || ranges[:second].cover?(ranges[:first].begin)
     end
 
     puts overlap_count
