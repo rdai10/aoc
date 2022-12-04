@@ -1,45 +1,45 @@
 #!/usr/bin/env ruby
 
 module Strategy 
-    INPUT = DATA.read.split("\n")
+  INPUT = DATA.read.split("\n")
 
-    def self.repeated_item(rucksack)
-        first_compartment = rucksack[0...rucksack.size/2].chars
-        second_compartment = rucksack[rucksack.size/2..rucksack.size].chars
+  def self.repeated_item(rucksack)
+    first_compartment = rucksack[0...rucksack.size/2].chars
+    second_compartment = rucksack[rucksack.size/2..rucksack.size].chars
 
-        first_compartment.intersection(second_compartment)
+    first_compartment.intersection(second_compartment)
+  end
+
+  def self.badges(group)
+      group.first.intersection(group.last(2).first, group.last)
+  end
+
+  # Lowercase item types a - z have priorities 1 - 26.
+  # Uppercase item types A - Z have priorities 27 - 52.
+  # ASCII a - z 97-122 A - Z 65-90
+  def self.priority(val)
+    val <= 90 ? val - 38 : val - 96
+  end
+
+  def self.part1
+    answer = INPUT.sum do |rucksack| 
+        repeated_item(rucksack).sum { |item| priority(item.ord)}
     end
 
-    def self.badges(group)
-        group.first.intersection(group.last(2).first, group.last)
+    puts answer
+  end
+
+  def self.part2
+    elf_groups = INPUT.each_slice(3)
+
+    all_badges = elf_groups.map do |group|
+        badges(group.map {|rucksack| rucksack.chars} )
     end
 
-    # Lowercase item types a - z have priorities 1 - 26.
-    # Uppercase item types A - Z have priorities 27 - 52.
-    # ASCII a - z 97-122 A - Z 65-90
-    def self.priority(val)
-        val <= 90 ? val - 38 : val - 96
-    end
+    answer = all_badges.sum { |badge| priority(badge.first.ord)}
 
-    def self.part1
-        answer = INPUT.sum do |rucksack| 
-            repeated_item(rucksack).sum { |item| priority(item.ord)}
-        end
-
-        puts answer
-    end
-
-    def self.part2
-        elf_groups = INPUT.each_slice(3)
-
-        all_badges = elf_groups.map do |group|
-            badges(group.map {|rucksack| rucksack.chars} )
-        end
-
-        answer = all_badges.sum { |badge| priority(badge.first.ord)}
-
-        puts answer
-    end
+    puts answer
+  end
 end
 
 Strategy.part1
