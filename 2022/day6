@@ -7,9 +7,7 @@ def marker(char_size)
   INPUT.each_with_index do |char, i|
     next if i < one_less_char_size
 
-    if INPUT[i - one_less_char_size..i].uniq.size == char_size
-      return i + 1
-    end
+    return i + 1 if INPUT[i - one_less_char_size..i].uniq.size == char_size
   end
 end
 
